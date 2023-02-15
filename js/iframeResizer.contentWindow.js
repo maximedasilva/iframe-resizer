@@ -195,7 +195,7 @@
       return 'true' === str
     }
 
-    var data = initMsg.substr(msgIdLen).split(':')
+    var data = initMsg.slice(msgIdLen).split(':')
 
     myID = data[0]
     bodyMargin = undefined === data[1] ? bodyMargin : Number(data[1]) // For V1 compatibility
@@ -422,7 +422,7 @@
       ]
     })
     manageTriggerEvent({
-      method: () => console.log,
+      method: method,
       eventType: 'Transition End',
       eventNames: [
         'transitionend',
@@ -1233,7 +1233,7 @@
     }
 
     function isMessageForUs() {
-      return msgID === ('' + event.data).substr(0, msgIdLen) // ''+ Protects against non-string messages
+      return msgID === ('' + event.data).slice(0, msgIdLen) // ''+ Protects against non-string messages
     }
 
     function getMessageType() {
@@ -1241,14 +1241,14 @@
     }
 
     function getData() {
-      return event.data.substr(event.data.indexOf(':') + 1)
+      return event.data.slice(event.data.indexOf(':') + 1)
     }
 
     function isMiddleTier() {
       return (
         (!(typeof module !== 'undefined' && module.exports) &&
           'iFrameResize' in window) ||
-        ('jQuery' in window && 'iFrameResize' in window.jQuery.prototype)
+        (window.jQuery !== undefined && 'iFrameResize' in window.jQuery.prototype)
       )
     }
 
